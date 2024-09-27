@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     # APPS
     'appointments',
     'api',
+    'commandments',
 ]
 
 MIDDLEWARE = [
