@@ -179,3 +179,5 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 barberappointment/__pycache__/settings.cpython-312.pyc
+CACHE
+vendors

@@ -8,9 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Django + Tailwind CSS + Flowbite</title>
 
-    {% compress css %}
-    <link rel="stylesheet" href="{% static 'src/output.css' %}" />
-    {% endcompress %}
+    {% compress css %} {% include 'css.html' %} {% endcompress %}
   </head>
 
   <body class="bg-green-50">
@@ -109,10 +107,9 @@
       </div>
     </nav>
     <!-- End of new HTML -->
-
+    {% include 'js.html' %}
     <div class="container mx-auto mt-4">
       {% block content %} {% endblock content %}
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
   </body>
 </html>
