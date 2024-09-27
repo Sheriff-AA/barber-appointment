@@ -1,3 +1,10 @@
-from django.shortcuts import render
+from rest_framework import generics
 
-# Create your views here.
+
+from appointments.models import Appointment
+from .serializers import AppointmentSerializer
+
+
+class AppointmentListAPIView(generics.ListAPIView):
+    queryset = Appointment.objects.all()
+    serializer_class = AppointmentSerializer
