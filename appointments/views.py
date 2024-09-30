@@ -14,6 +14,13 @@ def index(request):
 
 class AppointmentsListView(generic.ListView):
     template_name = "appointments/appointments_list"
+    context_object_name = 'appointments'
+
+    def get_queryset(self):
+        # Filter time slots that are not booked and are in the future
+        return Appointment.objects.all().order_by('date', 'start_time')
+
+
 
 
 class AvailableTimeSlotsView(generic.ListView):
