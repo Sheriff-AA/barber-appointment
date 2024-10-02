@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
+from django.utils.timezone import now
+from collections import defaultdict
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
@@ -30,7 +33,20 @@ class AvailableTimeSlotsView(generic.ListView):
 
     def get_queryset(self):
         # Filter time slots that are not booked and are in the future
-        return TimeSlot.objects.filter(appointments__isnull=True).order_by('date', 'start_time')
+        return TimeSlot.objects.filter(appointments__isnull=True).filter(date__gte=now().date()).order_by('date', 'start_time')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        time_slots = self.get_queryset()
+
+        # Group time slots by date
+        grouped_slots = defaultdict(list)
+        for slot in time_slots:
+            grouped_slots[slot.date].append(slot)
+        # print(grouped_slots.items())
+
+        context['time_slots_by_date'] = sorted(grouped_slots.items())
+        return context
 
 
 class BookAppointmentView(LoginRequiredMixin, generic.CreateView):

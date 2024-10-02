@@ -1,13 +1,23 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} 
+{% block content %}
 
-<h2>Available Time Slots</h2>
+<h2>Available Time Slots by Date</h2>
 
-<ul>
-  {% for slot in time_slots %}
-  <li>{{ slot.date }} from {{ slot.start_time }} to {{ slot.end_time }}</li>
-  {% empty %}
-  <li>No available slots.</li>
-  {% endfor %}
-</ul>
+{% for date, slots in time_slots_by_date %}
+  <h3 class="text-4xl text-gray-800">{{ date }}</h3>
+
+  <ul>
+    {% for slot in slots %}
+      <li>{{ slot.start_time }} - {{ slot.end_time }}</li>
+    {% empty %}
+      <li>No available slots on this date.</li>
+    {% endfor %}
+  </ul>
+
+{% empty %}
+
+  <p>No available time slots.</p>
+
+{% endfor %} 
 
 {% endblock content %}

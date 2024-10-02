@@ -11,8 +11,8 @@ class Command(BaseCommand):
         start_date = now().date()
         days_to_create = 7  # You can adjust this range as necessary
         time_start = time(9, 0)  # Start time of the slots (9:00 AM)
-        time_end = time(17, 0)  # End time of the slots (5:00 PM)
-        slot_duration = timedelta(minutes=30)  # 30-minute slots
+        time_end = time(16, 0)  # End time of the slots (4:00 PM)
+        slot_duration = timedelta(minutes=60)  # 60-minute slots
 
         for day in range(days_to_create):
             current_date = start_date + timedelta(days=day)
