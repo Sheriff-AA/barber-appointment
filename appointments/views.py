@@ -33,7 +33,7 @@ class AvailableTimeSlotsView(generic.ListView):
 
     def get_queryset(self):
         # Filter time slots that are not booked and are in the future
-        return TimeSlot.objects.filter(appointments__isnull=True).filter(date__gte=now().date()).order_by('date', 'start_time')
+        return TimeSlot.objects.filter(appointments__isnull=True).filter(date__gt=now().date()).order_by('date', 'start_time')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
