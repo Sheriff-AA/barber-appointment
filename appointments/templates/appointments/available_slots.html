@@ -20,4 +20,30 @@
 
 {% endfor %} 
 
+<div id="calendar" class="mt-10 mb-10"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.getElementById('calendar');
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        eventTimeFormat: { // Like '14:30'
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false
+        },
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        events: '{% url "appointments:event_list" %}',
+        eventClick: function(info) {
+            alert('Event: ' + info.event.title);
+        }
+      });
+      calendar.render();
+    });
+  </script>
+
 {% endblock content %}

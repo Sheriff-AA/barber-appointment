@@ -12,7 +12,8 @@ VENDOR_STATICFILES = {
     "flowbite.min.css": "https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css",
     "flowbite.min.js": "https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js",
     "flowbite.min.js.map": "https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js.map",
-    "htmx.min.js": "https://unpkg.com/htmx.org@1.9.11"
+    "htmx.min.js": "https://unpkg.com/htmx.org@1.9.11",
+    "fullcalendar.min.js": "https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js",
 }
 
 class Command(BaseCommand):

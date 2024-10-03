@@ -9,8 +9,8 @@ class User(AbstractUser):
 
 class TimeSlot(models.Model):
     date = models.DateField()
-    start_time = models.TimeField()
-    end_time = models.TimeField()
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
 
     class Meta:
         unique_together = ('date', 'start_time', 'end_time')

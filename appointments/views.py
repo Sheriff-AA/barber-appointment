@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
+from django.http import JsonResponse
 from django.utils.timezone import now
 from collections import defaultdict
 
@@ -24,6 +25,17 @@ class AppointmentsListView(generic.ListView):
         return Appointment.objects.all().order_by('date', 'start_time')
 
 
+def event_list(request):
+    events = TimeSlot.objects.all()
+    events_data = []
+    for event in events:
+        events_data.append({
+            'title': event.date,
+            'start': event.start_time.strftime("%Y-%m-%dT%H:%M:%S"),
+            'end': event.end_time.strftime("%Y-%m-%dT%H:%M:%S"),
+            'allDay': False,
+        })
+    return JsonResponse(events_data, safe=False)
 
 
 class AvailableTimeSlotsView(generic.ListView):
