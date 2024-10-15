@@ -20,30 +20,38 @@
 
 {% endfor %} 
 
-<div id="calendar" class="mt-10 mb-10"></div>
+<div id="calendar" class="max-w-[800px] mx-auto max-h-[600px] overflow-auto mt-10 mb-10"></div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      var calendarEl = document.getElementById('calendar');
-      var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        eventTimeFormat: { // Like '14:30'
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: false
-        },
-        headerToolbar: {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        },
-        events: '{% url "appointments:event_list" %}',
-        eventClick: function(info) {
-            alert('Event: ' + info.event.title);
-        }
-      });
-      calendar.render();
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      contentHeight: 'auto', 
+      aspectRatio: 1.5,
+      eventTimeFormat: { // Like '14:30'
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      },
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+      },
+      events: '{% url "appointments:event_list" %}',
+      eventClick: function(info) {
+        alert('Event: ' + info.event.title);
+      }
     });
-  </script>
+    calendar.render();
+  });
+</script>
+
+<style>
+  .fc {
+    font-size: 0.85em; /* Use this custom class for reducing font size inside the calendar */
+  }
+</style>
 
 {% endblock content %}
