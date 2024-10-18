@@ -42,6 +42,10 @@ INSTALLED_APPS = [
     # THIRD PARTY
     # 'rest_framework',
     'compressor',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 
     # APPS
     'appointments',
@@ -56,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = 'barberappointment.urls'
@@ -108,6 +113,35 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "VERIFIED_EMAIL": True,
+         "APPS": [
+            {
+                "client_id": config('GOOGLE_AUTH_CLIENT_ID'),
+                "secret": config('GOOGLE_AUTH_CLIENT_SECRET'),
+                "key": config('GOOGLE_AUTH_CLIENT_KEY')
+            },
+        ],
+    }
+}
+
+
+# DJANGO-ALLAUTH CONFIG
+LOGIN_REDIRECT_URL="/"
+ACCOUNT_AUTHENTICATION_METHOD="email"
+ACCOUNT_EMAIL_VERIFICATION="mandatory"
+ACCOUNT_EMAIL_SUBJECT_PREFIX="[StyledBarbers] "
+ACCOUNT_EMAIL_REQUIRED=True
+SOCIALACCOUNT_AUTO_SIGNUP=False
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
