@@ -9,5 +9,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', LandingPageView.as_view(), name="landing-page"),
     path("appointments/", include("appointments.urls", namespace="appointments")),
+    path("barbers/", include("barbers.urls", namespace="barbers")),
     path('accounts/', include('allauth.urls')),
 ]

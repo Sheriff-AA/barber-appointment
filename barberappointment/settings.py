@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     # APPS
     'appointments',
     'commandments',
+    'barbers',
 ]
 
 MIDDLEWARE = [
