@@ -2,7 +2,7 @@ from django.urls import path
 from django.views.generic import TemplateView
 
 
-from .views import index, AvailableTimeSlotsView, BookAppointmentView, UserAppointmentsView, AppointmentsListView, event_list
+from .views import AppointmentPageView, AvailableTimeSlotsView, BookAppointmentView, UserAppointmentsView, AppointmentsListView, event_list
 
 """
 BASE ENDPOINT /appointments
@@ -11,7 +11,7 @@ app_name = "appointments"
 
 
 urlpatterns = [
-    path('', index, name='index'),
+    path('', AppointmentPageView.as_view(), name='index'),
     path('available-slots/', AvailableTimeSlotsView.as_view(), name='available_slots'),
     path('book/', BookAppointmentView.as_view(), name='book_appointment'),
     path('my-appointments/', UserAppointmentsView.as_view(), name='user_appointments'),

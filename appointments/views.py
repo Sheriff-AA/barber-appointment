@@ -12,12 +12,16 @@ from .models import TimeSlot, Appointment
 from .forms import AppointmentForm
 
 
-def index(request):
-    return render(request, 'landing_page.html')
+class LandingPageView(generic.TemplateView):
+    template_name = 'landing.html'
+
+
+class AppointmentPageView(generic.TemplateView):
+    template_name = 'landing_page.html'
 
 
 class AppointmentsListView(generic.ListView):
-    template_name = "appointments/appointments_list"
+    template_name = "appointments/appointments_list.html"
     context_object_name = 'appointments'
 
     def get_queryset(self):

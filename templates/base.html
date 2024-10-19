@@ -11,10 +11,10 @@
     {% compress css %} {% include 'css.html' %} {% endcompress %}
   </head>
 
-  <body class="bg-green-50">
+  <body>
     {% include 'navbar.html' %} {% include 'js.html' %}
-    <div class="container mx-auto mt-4">
-      {% block content %} {% endblock content %}
-    </div>
+    {% block content %} 
+    
+    {% endblock content %}
   </body>
 </html>
