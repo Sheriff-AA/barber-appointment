@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'appointments',
     'commandments',
     'barbers',
+    'profiles',
 ]
 
 MIDDLEWARE = [
@@ -191,3 +192,9 @@ STATICFILES_FINDERS = ('compressor.finders.CompressorFinder',)
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'appointments.User'
+
+PROFILE_PERMISSIONS = [
+    ("barber", "Barber Actions"),
+    ("customer", "Customer Actions"),
+]
+
