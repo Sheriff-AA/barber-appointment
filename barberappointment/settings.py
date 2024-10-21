@@ -54,10 +54,13 @@ INSTALLED_APPS = [
     # THIRD PARTY
     # 'rest_framework',
     'compressor',
+    'allauth_ui',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'widget_tweaks',
+    'slippers',
 
     # APPS
     'appointments',
@@ -201,4 +204,7 @@ PROFILE_PERMISSIONS = [
     ("barber", "Barber Actions"),
     ("customer", "Customer Actions"),
 ]
+
+# settings.py
+ALLAUTH_UI_THEME = "autumn"
 
