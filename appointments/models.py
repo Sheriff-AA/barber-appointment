@@ -39,7 +39,7 @@ class Appointment(models.Model):
         unique_together = ('profile', 'slot')
 
     def __str__(self):
-        return f"Appointment with {self.user.username} on {self.slot}"
+        return f"Appointment with {self.profile.user.username} on {self.slot}"
     
 
 class Rating(models.Model):

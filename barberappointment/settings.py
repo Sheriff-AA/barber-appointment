@@ -201,8 +201,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'appointments.User'
 
 PROFILE_PERMISSIONS = [
-    ("barber", "Barber Actions"),
-    ("customer", "Customer Actions"),
+    ("barber_actions", "Barber Actions"),
+    ("customer_actions", "Customer Actions"),
 ]
 
 # settings.py
