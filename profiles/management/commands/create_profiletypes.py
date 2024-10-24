@@ -27,9 +27,9 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.SUCCESS(f"Permission '{name}' created."))
             else:
                 self.stdout.write(f"Permission '{name}' already exists.")
-
+            
             # Create or get the group with the same name as the permission codename
-            group, group_created = Group.objects.get_or_create(name=f"{codename.capitalize()} User Group")
+            group, group_created = Group.objects.get_or_create(name=f"{name} User Group")
 
             if group_created:
                 self.stdout.write(self.style.SUCCESS(f"Group '{group.name}' created."))
@@ -42,7 +42,7 @@ class Command(BaseCommand):
 
              # Create or get the ProfileType
             profile_type, profile_created = ProfileType.objects.get_or_create(
-                name=f"{codename.capitalize()} Proile Type",
+                name=f"{name} Profile Type",
                 permissions=permission  # Assign the permission to ProfileType
             )
 

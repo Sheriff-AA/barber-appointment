@@ -1,12 +1,30 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import Group, Permission
 from django.db.models.signals import post_save
 from django.conf import settings
+from utils.generators import unique_username
 
 User = settings.AUTH_USER_MODEL #appointments.User
 
 ALLOW_CUSTOM_GROUPS = True
 PROFILE_PERMISSIONS = settings.PROFILE_PERMISSIONS
+
+
+class User(AbstractUser):
+    username = models.CharField(max_length=150, blank=True, null=True)
+    email = models.EmailField(unique=True)
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
+
+    def __str__(self):
+        return str(self.email)
+
+    def save(self, *args, **kwargs):
+        new_slug = f"{self.email}".split('@')[0]
+        unique_username(self, new_slug)
+        super().save(*args, **kwargs)
 
 
 class ProfileType(models.Model):

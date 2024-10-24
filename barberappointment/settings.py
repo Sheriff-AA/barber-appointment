@@ -156,9 +156,22 @@ SOCIALACCOUNT_PROVIDERS = {
 LOGIN_REDIRECT_URL="/"
 ACCOUNT_AUTHENTICATION_METHOD="email"
 ACCOUNT_EMAIL_VERIFICATION="mandatory"
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_USERNAME_REQUIRED = False
+
 ACCOUNT_EMAIL_SUBJECT_PREFIX="[StyledBarbers] "
 ACCOUNT_EMAIL_REQUIRED=True
-SOCIALACCOUNT_AUTO_SIGNUP=False
+SOCIALACCOUNT_AUTO_SIGNUP=True
+
+
+ACCOUNT_FORMS = {
+    'signup': 'profiles.forms.CustomSignupForm',
+    }
+
+SOCIALACCOUNT_FORMS = {
+    'signup': 'profiles.forms.CustomSocialSignupForm',
+    }
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -198,11 +211,11 @@ STATICFILES_FINDERS = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-AUTH_USER_MODEL = 'appointments.User'
+AUTH_USER_MODEL = 'profiles.User'
 
 PROFILE_PERMISSIONS = [
-    ("barber_actions", "Barber Actions"),
-    ("customer_actions", "Customer Actions"),
+    ("access_to_barber_actions", "Barber Actions"),
+    ("access_to_customer_actions", "Customer Actions"),
 ]
 
 # settings.py

@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
 from datetime import timedelta
 
 from profiles.models import UserProfile
@@ -13,14 +12,12 @@ RATINGS_CHOICES = (
     (5, "Give this man your money!")
 )
 
-class User(AbstractUser):
-    pass
 
 class TimeSlot(models.Model):
     date = models.DateField()
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
-    barber = models.ForeignKey(Barber, on_delete=models.CASCADE, null=True, blank=True)
+    barber = models.ForeignKey(Barber, on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ('date', 'start_time', 'end_time')
