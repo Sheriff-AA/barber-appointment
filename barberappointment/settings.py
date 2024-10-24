@@ -159,6 +159,11 @@ ACCOUNT_EMAIL_VERIFICATION="mandatory"
 
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_UNKNOWN_ACCOUNTS = False
+
+ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED = True
+ACCOUNT_LOGIN_BY_CODE_ENABLED = True
+ACCOUNT_LOGIN_BY_CODE_TIMEOUT = 600
 
 ACCOUNT_EMAIL_SUBJECT_PREFIX="[StyledBarbers] "
 ACCOUNT_EMAIL_REQUIRED=True
@@ -167,11 +172,11 @@ SOCIALACCOUNT_AUTO_SIGNUP=True
 
 ACCOUNT_FORMS = {
     'signup': 'profiles.forms.CustomSignupForm',
-    }
+}
 
 SOCIALACCOUNT_FORMS = {
     'signup': 'profiles.forms.CustomSocialSignupForm',
-    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/

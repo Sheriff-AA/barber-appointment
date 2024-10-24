@@ -10,7 +10,7 @@ User = settings.AUTH_USER_MODEL
 
 
 class CustomSignupForm(SignupForm):
-    email = forms.EmailField()
+    # email = forms.EmailField()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -19,7 +19,7 @@ class CustomSignupForm(SignupForm):
 
     def save(self, request):
         user = super().save(request)
-        user.set_password(secrets.token_urlsafe(10))
+        user.set_password(secrets.token_urlsafe(13))
         user.username = user.email
         user.save()
 
