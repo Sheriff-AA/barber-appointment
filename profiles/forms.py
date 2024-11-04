@@ -10,8 +10,6 @@ User = settings.AUTH_USER_MODEL
 
 
 class CustomSignupForm(SignupForm):
-    # email = forms.EmailField()
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields.pop('password1')
