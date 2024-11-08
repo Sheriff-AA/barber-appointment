@@ -1,10 +1,11 @@
 from allauth.account.forms import SignupForm
 from allauth.socialaccount.forms import SignupForm as SocialSignupForm
-from django import forms
 from django.conf import settings
 import secrets
 
-from utils import password_gen
+from utils.password_gen import password_gen
+from utils.profile_types import barber_profiletype
+from .models import UserProfile
 
 User = settings.AUTH_USER_MODEL
 
@@ -21,9 +22,17 @@ class CustomSignupForm(SignupForm):
         user.username = user.email
         user.save()
 
+        profile, exists = UserProfile.objects.get_or_create(
+            user=user,
+            profile_type=barber_profiletype
+        )
+
         return user
 
 
 class CustomSocialSignupForm(SocialSignupForm):
     def save(self, request):
-        return super().save(request)
+        user = super().save(request)
+
+
+        return user

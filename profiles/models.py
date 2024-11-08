@@ -46,8 +46,8 @@ class ProfileType(models.Model):
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_type = models.ForeignKey(ProfileType, on_delete=models.CASCADE, verbose_name="profile_type")
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    profile_type = models.ForeignKey(ProfileType, on_delete=models.CASCADE, verbose_name="Profile Type")
 
 
 def user_profile_post_save(sender, instance, *args, **kwargs):

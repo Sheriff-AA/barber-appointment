@@ -20,7 +20,7 @@ class TimeSlot(models.Model):
     barber = models.ForeignKey(Barber, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = ('date', 'start_time', 'end_time')
+        unique_together = ('date', 'start_time', 'end_time', 'barber')
 
     def __str__(self):
         return f"{self.date} | {self.start_time} - {self.end_time}"
@@ -28,7 +28,7 @@ class TimeSlot(models.Model):
 
 class Appointment(models.Model):
     profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
-    slot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE, related_name='appointments')
+    slot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE, related_name='appointment')
     booked_at = models.DateTimeField(auto_now_add=True)
     is_accepted = models.BooleanField(default=False)
 
