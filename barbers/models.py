@@ -7,6 +7,9 @@ class Barber(models.Model):
     description = models.TextField(blank=True, null=True)
     location = models.CharField(max_length=220)
 
+    def __str__(self):
+        return f"{self.profile.user.username}"
+
 
 class Comment(models.Model):
     profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)

@@ -33,7 +33,7 @@
             <a class="link" href="{{ signup_url }}">sign up</a> first.{% endblocktranslate %}
         </div>
         <div class="divider divider-neutral"></div>
-        <a href="{{ request_login_code_url }}" class="w-full my-1 btn btn-neutral">{% trans "Mail me a sign-in code" %}</a>
+        <a href="{{ request_login_code_url }}" class="w-full my-1 btn btn-primary">{% trans "Mail me a sign-in code" %}</a>
     {% endif %}
     {% if SOCIALACCOUNT_ENABLED %}
         {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}

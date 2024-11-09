@@ -23,25 +23,10 @@ class CustomSignupForm(SignupForm):
         user.username = user.email
         user.save()
 
-        profile, exists = UserProfile.objects.get_or_create(
-            user=user,
-            profile_type=barber_profiletype
-        )
-        if exists:
-            pass
-        else:
-            Barber.objects.create(
-                profile=profile,
-                description="",
-                location="None"
-            )
-
         return user
 
 
 class CustomSocialSignupForm(SocialSignupForm):
     def save(self, request):
         user = super().save(request)
-
-
         return user

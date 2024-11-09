@@ -22,7 +22,7 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ["username"]
 
     def __str__(self):
-        return str(self.email)
+        return f"{self.email}"
 
     def save(self, *args, **kwargs):
         email_prefix = f"{self.email}".split('@')[0]
@@ -52,6 +52,9 @@ class ProfileType(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     profile_type = models.ForeignKey(ProfileType, on_delete=models.CASCADE, verbose_name="Profile Type")
+
+    def __str__(self):
+        return f"{self.user.username}"
 
 
 def user_profile_post_save(sender, instance, *args, **kwargs):
