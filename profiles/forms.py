@@ -6,6 +6,7 @@ import secrets
 from utils.password_gen import password_gen
 from utils.profile_types import barber_profiletype
 from .models import UserProfile
+from barbers.models import Barber
 
 User = settings.AUTH_USER_MODEL
 
@@ -26,6 +27,14 @@ class CustomSignupForm(SignupForm):
             user=user,
             profile_type=barber_profiletype
         )
+        if exists:
+            pass
+        else:
+            Barber.objects.create(
+                profile=profile,
+                description="",
+                location="None"
+            )
 
         return user
 

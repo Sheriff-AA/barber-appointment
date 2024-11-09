@@ -3,6 +3,9 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import Group, Permission
 from django.db.models.signals import post_save
 from django.conf import settings
+import secrets
+
+
 from utils.generators import unique_username
 
 User = settings.AUTH_USER_MODEL #appointments.User
@@ -22,7 +25,8 @@ class User(AbstractUser):
         return str(self.email)
 
     def save(self, *args, **kwargs):
-        new_slug = f"{self.email}".split('@')[0]
+        email_prefix = f"{self.email}".split('@')[0]
+        new_slug = f"user-{email_prefix}{secrets.token_urlsafe(5)}" 
         unique_username(self, new_slug)
         super().save(*args, **kwargs)
 
