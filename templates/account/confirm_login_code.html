@@ -19,13 +19,13 @@
         {% csrf_token %}
     {% /form %} 
 
-
     <form id="logout-from-stage"
           method="post"
           action="{% url 'account_logout' %}">
         <input type="hidden" name="next" value="{% url 'account_login' %}">
         {% csrf_token %}
-        <a href="{% url 'account_logout' %}" class="btn btn-neutral" >{% trans "Cancel" %}</a>
+        <button type="submit" class="my-3 btn btn-neutral">Cancel</button>
     </form>
+
     {% /container %}
 {% endblock content %}
