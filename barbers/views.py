@@ -19,3 +19,7 @@ class BarberListView(generic.ListView):
     template_name = "barbers/list_barbers.html"
     model = Barber
     context_object_name = 'barbers'
+
+
+class BarberDetailView(generic.DetailView):
+    template_name = "barbers/detail_barbers.html"

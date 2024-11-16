@@ -6,6 +6,8 @@ class Barber(models.Model):
     profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="barber")
     description = models.TextField(blank=True, null=True)
     location = models.CharField(max_length=220)
+    name = models.CharField(max_length=50)
+    shop_name = models.CharField(max_length=80)
 
     def __str__(self):
         return f"{self.profile.user.username}"
