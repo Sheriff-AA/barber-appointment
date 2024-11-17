@@ -7,6 +7,7 @@ import secrets
 
 
 from utils.generators import unique_username
+from utils.password_gen import password_gen
 
 User = settings.AUTH_USER_MODEL #appointments.User
 
@@ -25,8 +26,8 @@ class User(AbstractUser):
         return f"{self.email}"
 
     def save(self, *args, **kwargs):
-        email_prefix = f"{self.email}".split('@')[0]
-        new_slug = f"user-{email_prefix}{secrets.token_urlsafe(5)}" 
+        # email_prefix = f"{self.email}".split('@')[0]
+        new_slug = f"user-{password_gen()}" 
         unique_username(self, new_slug)
         super().save(*args, **kwargs)
 

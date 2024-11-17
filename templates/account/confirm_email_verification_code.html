@@ -1,0 +1,35 @@
+{% extends "account/base_entrance.html" %}
+{% load i18n %}
+{% load allauth_ui %}
+{% load widget_tweaks %}
+
+{% block content %}
+    {% trans "Verify Email" as heading %}
+    {% #container heading=heading  %}
+    {% translate "Enter Email Verification Code" %}
+
+    <div class="">
+        {% blocktranslate %}We’ve sent a code to <a href="mailto:{{ email }}">{{ email }}</a>. The code expires shortly, so please enter it soon.{% endblocktranslate %}
+    </div>
+
+    {% url 'account_email_verification_sent' as action_url %}
+    {% #form form=form url=url button_text=heading %}
+        {% csrf_token %}
+        {{ redirect_field }}
+    {% /form %}
+
+    {% if cancel_url %}
+        <a href="{{ cancel_url }}" class="btn btn-neutral">{% trans "Cancel" %}</a>
+    {% else %}
+        {% if not cancel_url %}
+            <form id="logout-from-stage"
+                method="post"
+                action="{% url 'account_logout' %}">
+                <input type="hidden" name="next" value="{% url 'account_login' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-neutral">Cancel</button>
+            </form>
+        {% endif %}
+    {% endif %}
+    {% /container %}
+{% endblock content %}

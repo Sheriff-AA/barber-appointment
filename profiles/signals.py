@@ -29,12 +29,14 @@ def handle_email_confirmation_(request, email_address, **kwargs):
     if created:
         Barber.objects.create(
             profile=profile,
-            description="",
-            location="None"
+            description="No description...",
+            location="None",
+            name=f"{profile.user.username}",
+            shop_name=f"{profile.user.username}'s Shop"
         )
 
 
 @receiver(user_signed_up)
 def handle_user_signup_(request, user, **kwargs):
-    user.is_active = False
+    # user.is_active = False
     user.save()
