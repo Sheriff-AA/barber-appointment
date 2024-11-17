@@ -32,7 +32,8 @@ def handle_email_confirmation_(request, email_address, **kwargs):
             description="No description...",
             location="None",
             name=f"{profile.user.username}",
-            shop_name=f"{profile.user.username}'s Shop"
+            shop_name=f"{profile.user.username}'s Shop",
+            slug = f"{profile.user.username}".split('-')[1]
         )
 
 

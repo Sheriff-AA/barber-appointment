@@ -23,3 +23,6 @@ class BarberListView(generic.ListView):
 
 class BarberDetailView(generic.DetailView):
     template_name = "barbers/detail_barbers.html"
+
+    def get_queryset(self):
+        return Barber.objects.all()
