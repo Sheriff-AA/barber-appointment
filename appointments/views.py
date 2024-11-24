@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.utils.timezone import now
 from collections import defaultdict
 
@@ -9,7 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 from .models import TimeSlot, Appointment
-from .forms import AppointmentForm, TimeSlotForm
+from .forms import AppointmentForm, TimeSlotForm, MultipleTimeslotForm
 
 
 class LandingPageView(generic.TemplateView):
@@ -97,3 +97,21 @@ class CreateBarberTimeSlotsView(generic.CreateView):
     model = TimeSlot
     form_class = TimeSlotForm
     template_name = 'appointments/create_barber_timeslots.html'
+
+
+def create_multiple_timeslots(request):
+    if request.method == "POST":
+        # create a form instance and populate it with data from the request:
+        form = MultipleTimeslotForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            return HttpResponseRedirect("/success/")
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = MultipleTimeslotForm()
+
+    return render(request, "appointments/create_multiple_timeslots.html", {"form": form})
