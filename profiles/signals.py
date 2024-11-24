@@ -3,8 +3,8 @@ from django.dispatch import receiver
 import secrets
 from django.contrib.auth import get_user_model
 
-from utils.profile_types import barber_profiletype
-from .models import UserProfile
+# from utils.profile_types import barber_profiletype
+from .models import UserProfile, ProfileType
 from barbers.models import Barber
 
 
@@ -22,7 +22,7 @@ def handle_email_confirmation_(request, email_address, **kwargs):
     # Create or get the user profile
     profile, created = UserProfile.objects.get_or_create(
         user=user,
-        profile_type=barber_profiletype
+        profile_type=ProfileType.objects.get(name="Barber Profile Type")
     )
 
     # Create Barber object if profile was just created

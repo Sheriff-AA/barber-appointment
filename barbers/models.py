@@ -7,7 +7,7 @@ class Barber(models.Model):
     description = models.TextField(blank=True, null=True)
     location = models.CharField(max_length=220)
     name = models.CharField(max_length=50)
-    shop_name = models.CharField(max_length=80)
+    shop_name = models.CharField(max_length=180)
     slug = models.SlugField(null=True, blank=True, unique=True)
 
     def __str__(self):
