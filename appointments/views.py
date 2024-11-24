@@ -9,7 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 from .models import TimeSlot, Appointment
-from .forms import AppointmentForm
+from .forms import AppointmentForm, TimeSlotForm
 
 
 class LandingPageView(generic.TemplateView):
@@ -91,3 +91,9 @@ class UserAppointmentsView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         # Only show appointments for the logged-in user
         return Appointment.objects.filter(user=self.request.user).order_by('slot__date', 'slot__start_time')
+
+
+class CreateBarberTimeSlotsView(generic.CreateView):
+    model = TimeSlot
+    form_class = TimeSlotForm
+    template_name = 'appointments/create_barber_timeslots.html'

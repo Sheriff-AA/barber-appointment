@@ -12,3 +12,9 @@ class AppointmentForm(forms.ModelForm):
         self.fields['slot'].queryset = TimeSlot.objects.filter(
             appointments__isnull=True
         )  # Only show available time slots
+
+
+class TimeSlotForm(forms.ModelForm):
+    class Meta:
+        model = TimeSlot
+        fields = ["date", "start_time", "end_time", "is_reserved"]
