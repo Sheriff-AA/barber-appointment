@@ -61,6 +61,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'widget_tweaks',
     'slippers',
+    'crispy_forms',
+    'crispy_tailwind',
 
     # APPS
     'appointments',
@@ -222,6 +224,10 @@ PROFILE_PERMISSIONS = [
     ("access_to_barber_actions", "Barber Actions"),
     ("access_to_customer_actions", "Customer Actions"),
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+CRISPY_TEMPLATE_PACK = 'tailwind'
+
 
 # settings.py
 ALLAUTH_UI_THEME = "autumn"
