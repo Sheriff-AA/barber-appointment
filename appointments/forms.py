@@ -25,13 +25,22 @@ class TimeSlotForm(forms.ModelForm):
 class MultipleTimeslotForm(forms.Form):
     start_date = forms.SplitDateTimeField(
         widget=forms.SplitDateTimeWidget(
-            date_attrs={'type': 'date', 'class': 'datepicker'},
+            date_attrs={'type': 'date', 'class': 'datepicker', 'placeholder': 'MM/DD/YYYY'},
             time_attrs={'type': 'time', 'class': 'timepicker'},
         )
     )
-    days_to_create = forms.IntegerField()
-    slot_duration = forms.IntegerField(label='Slot duration (in mintes)')
-    opening_hour = forms.IntegerField()
-    opening_minute = forms.IntegerField()
-    closing_hour = forms.IntegerField()
-    closing_minute = forms.IntegerField()
+    days_to_create = forms.IntegerField(min_value=1)
+    slot_duration = forms.IntegerField(min_value=30, label='Slot duration (in mintes)')
+    opening_hour = forms.TimeField(
+        widget=forms.TimeInput(
+            attrs={
+                'placeholder': 'HH:MM:SS',
+                'class': 'form-control',
+                'type': 'time',
+            }
+        )
+    )
+    closing_hour = forms.TimeField(
+        help_text= '05:59 PM',
+        widget=forms.TimeInput(attrs={'type': 'time'})
+    )

@@ -2,10 +2,16 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-<form action="{% url 'appointments:create_multiple_timeslots' %}" method="POST">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <button type="submit">Confirm?</button>
-</form>
+{% comment %} <style>
+    input {max-width: 12em};
+</style> {% endcomment %}
+
+<div class="container pt-1 mx-auto mt-5">
+    <form action="{% url 'appointments:create_multiple_timeslots' %}" method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit">Confirm?</button>
+    </form>
+</div>
 
 {% endblock content %}

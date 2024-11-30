@@ -105,10 +105,14 @@ def create_multiple_timeslots(request):
         form = MultipleTimeslotForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
-            return HttpResponseRedirect("/success/")
+            start_date = form.cleaned_data['start_date']
+            days_to_create = form.cleaned_data['days_to_create']
+            slot_duration = form.cleaned_data['slot_duration']
+            opening_hour = form.cleaned_data['opening_hour']
+            closing_hour = form.cleaned_data['closing_hour']
+
+            print(start_date, days_to_create, slot_duration, opening_hour, closing_hour)
+            return HttpResponseRedirect("success/")
 
     # if a GET (or any other method) we'll create a blank form
     else:
