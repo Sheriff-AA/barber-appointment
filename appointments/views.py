@@ -17,7 +17,7 @@ class LandingPageView(generic.TemplateView):
 
 
 class AppointmentPageView(generic.TemplateView):
-    template_name = 'landing_page.html'
+    template_name = 'appointments/appointments_list.html'
 
 
 class AppointmentsListView(generic.ListView):
