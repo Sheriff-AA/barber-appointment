@@ -4,7 +4,7 @@ from django.conf import settings
 import secrets
 
 from utils.password_gen import password_gen
-from utils.profile_types import barber_profiletype
+# from utils.profile_types import barber_profiletype
 from .models import UserProfile
 from barbers.models import Barber
 

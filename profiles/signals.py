@@ -22,7 +22,7 @@ def handle_email_confirmation_(request, email_address, **kwargs):
     # Create or get the user profile
     profile, created = UserProfile.objects.get_or_create(
         user=user,
-        profile_type=ProfileType.objects.get(name="Barber Profile Type")
+        profile_type=ProfileType.objects.get(name="Barber Actions Profile Type")
     )
 
     # Create Barber object if profile was just created

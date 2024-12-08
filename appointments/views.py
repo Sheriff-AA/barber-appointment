@@ -6,7 +6,7 @@ from django.utils.timezone import now
 from collections import defaultdict
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from profiles.mixins import barber_required
 
 from .models import TimeSlot, Appointment
 from .forms import AppointmentForm, TimeSlotForm, MultipleTimeslotForm
@@ -99,6 +99,7 @@ class CreateBarberTimeSlotsView(generic.CreateView):
     template_name = 'appointments/create_barber_timeslots.html'
 
 
+@barber_required
 def create_multiple_timeslots(request):
     if request.method == "POST":
         # create a form instance and populate it with data from the request:
@@ -110,8 +111,9 @@ def create_multiple_timeslots(request):
             slot_duration = form.cleaned_data['slot_duration']
             opening_hour = form.cleaned_data['opening_hour']
             closing_hour = form.cleaned_data['closing_hour']
+            barber_profile = request.user.profile.barber.name
 
-            print(start_date, days_to_create, slot_duration, opening_hour, closing_hour)
+            print(start_date, days_to_create, slot_duration, opening_hour, closing_hour, barber_profile)
             return HttpResponseRedirect("success/")
 
     # if a GET (or any other method) we'll create a blank form
