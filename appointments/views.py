@@ -9,6 +9,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from profiles.mixins import barber_required
 
 from .models import TimeSlot, Appointment
+from barbers.models import Barber
+from utils.create_multiple_timeslots import create_timeslots
 from .forms import AppointmentForm, TimeSlotForm, MultipleTimeslotForm
 
 
@@ -49,7 +51,7 @@ class AvailableTimeSlotsView(generic.ListView):
 
     def get_queryset(self):
         # Filter time slots that are not booked and are in the future
-        return TimeSlot.objects.filter(appointments__isnull=True).filter(date__gt=now().date()).order_by('date', 'start_time')
+        return TimeSlot.objects.filter(date__gt=now().date()).order_by('date', 'start_time')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -111,9 +113,21 @@ def create_multiple_timeslots(request):
             slot_duration = form.cleaned_data['slot_duration']
             opening_hour = form.cleaned_data['opening_hour']
             closing_hour = form.cleaned_data['closing_hour']
-            barber_profile = request.user.profile.barber.name
+            barber_user = Barber.objects.get(profile=request.user.profile)
 
-            print(start_date, days_to_create, slot_duration, opening_hour, closing_hour, barber_profile)
+            print(start_date, days_to_create, slot_duration,opening_hour < closing_hour, opening_hour,opening_hour.minute, closing_hour, closing_hour.minute, barber_user.name)
+
+            if opening_hour < closing_hour:
+                create_timeslots(
+                    start_date=start_date,
+                    days_to_create=days_to_create,
+                    duration=slot_duration,
+                    opening_hour=opening_hour,
+                    closing_hour=closing_hour,
+                    barber_user=barber_user
+                )
+            else:
+                return render(request, "appointments/create_multiple_timeslots.html", {"form": form})
             return HttpResponseRedirect("success/")
 
     # if a GET (or any other method) we'll create a blank form

@@ -2,18 +2,18 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-{% comment %} <style>
-    input {max-width: 12em};
-</style> {% endcomment %}
-
-<div class="container pt-1 mx-auto">
-    <div class="w-11/12 p-10 mx-auto mt-5 rounded-lg shadow-md md:mt-15 lg:mt-32 sm:p-5 md:w-6/12 lg:w-5/12 xl:w-4/12 md:p-10 xl:p-13 bg-base-100">
+<section class="bg-white dark:bg-gray-900 mx-auto">
+    <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
         <form class="py-3" action="{% url 'appointments:create_multiple_timeslots' %}" method="POST">
             {% csrf_token %}
             {{ form|crispy }}
+
+            {% comment %} {{ form.start_date|as_crispy_field }}
+            {{ form.days_to_create|as_crispy_field }}
+            {{ form.slot_duration|as_crispy_field }} {% endcomment %}
             <button type="submit" class="my-3 btn btn-primary">Confirm?</button>
         </form>
     </div>
-</div>
+</section>
 
 {% endblock content %}

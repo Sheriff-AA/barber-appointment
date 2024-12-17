@@ -4,14 +4,14 @@ from django.utils.timezone import now, make_aware
 from appointments.models import TimeSlot
 
 
-def create_timeslots(start_date, days_to_create, duration, opening_hour, closing_hour):
+def create_timeslots(start_date, days_to_create, duration, opening_hour, closing_hour, barber_user):
     """
     Creates multiple timeslots from the start_date
     """
 
     # Define slot time range using datetime objects
-    time_start = datetime.combine(start_date, datetime.min.time()).replace(hour=9, minute=0)  # 9:00 AM
-    time_end = datetime.combine(start_date, datetime.min.time()).replace(hour=16, minute=0)   # 4:00 PM
+    time_start = datetime.combine(start_date, datetime.min.time()).replace(hour=opening_hour.hour, minute=opening_hour.minute)  # 9:00 AM
+    time_end = datetime.combine(start_date, datetime.min.time()).replace(hour=closing_hour.hour, minute=closing_hour.minute)   # 4:00 PM
     slot_duration = timedelta(minutes=duration)  # Duration of each slot (60 minutes)
 
     for day in range(days_to_create):
@@ -29,7 +29,9 @@ def create_timeslots(start_date, days_to_create, duration, opening_hour, closing
                 TimeSlot.objects.get_or_create(
                     date=current_date,
                     start_time=current_time,  # Store full datetime for start
-                    end_time=end_time  # Store full datetime for end
+                    end_time=end_time,  # Store full datetime for end
+                    is_reserved = False,
+                    barber = barber_user
                 )
 
             # Increment current time by slot duration (60 minutes)

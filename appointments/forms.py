@@ -38,6 +38,7 @@ class MultipleTimeslotForm(forms.Form):
     days_to_create = forms.IntegerField(min_value=1)
     slot_duration = forms.IntegerField(min_value=30, label='Slot duration (in mintes)')
     opening_hour = forms.TimeField(
+        label='Opeing hour (08:00 AM)',
         widget=forms.TimeInput(
             attrs={
                 'class': 'form-control',
@@ -46,7 +47,7 @@ class MultipleTimeslotForm(forms.Form):
         )
     )
     closing_hour = forms.TimeField(
-        help_text= '05:59 PM',
+        label='Closing hour (05:00 PM)',
         widget=forms.TimeInput(
             attrs={
                 'type': 'time'
