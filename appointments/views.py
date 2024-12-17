@@ -115,8 +115,6 @@ def create_multiple_timeslots(request):
             closing_hour = form.cleaned_data['closing_hour']
             barber_user = Barber.objects.get(profile=request.user.profile)
 
-            print(start_date, days_to_create, slot_duration,opening_hour < closing_hour, opening_hour,opening_hour.minute, closing_hour, closing_hour.minute, barber_user.name)
-
             if opening_hour < closing_hour:
                 create_timeslots(
                     start_date=start_date,
@@ -127,6 +125,7 @@ def create_multiple_timeslots(request):
                     barber_user=barber_user
                 )
             else:
+                # pass specific error to form or do it in forms
                 return render(request, "appointments/create_multiple_timeslots.html", {"form": form})
             return HttpResponseRedirect("success/")
 
