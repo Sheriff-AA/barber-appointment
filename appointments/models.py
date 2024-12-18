@@ -34,7 +34,7 @@ class Appointment(models.Model):
     slot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE, related_name='appointment')
     booked_at = models.DateTimeField(auto_now_add=True)
     is_accepted = models.BooleanField(default=False)
-
+# new field like requested_on ad accepted_on
     class Meta:
         unique_together = ('customer_email', 'slot')
 

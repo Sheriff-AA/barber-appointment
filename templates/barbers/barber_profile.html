@@ -1,0 +1,65 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+<p>NAME: {{ barber.name }}</p>
+<p>LOCATION: {{ barber.location }}</p>
+<p>DESCRIPTION: {{ barber.description }}</p>
+<p>SHOP NAME: {{ barber.shop_name }}</p>
+
+<h2 class='mt-2 text-xl'>Your requested appointments</h2>
+
+{% for request in requested_appointments %}
+
+  <h3 class="text-2xl text-gray-800">{{ request }}</h3>
+  <p>NAME: {{ request.customer_firstname }} {{ request.customer_lastname }}</p>
+  <p>REQUESTED ON: {{ request.booked_at }}</p> 
+  <p>CUSTOMER EMAIL: {{ request.customer_email }}</p>
+  <p>DATE & TIME: {{ request.slot }}</p>
+
+{% empty %}
+
+  <p>No appointments requested.</p>
+
+{% endfor %} 
+
+<h2 class='mt-2 text-xl'>Your confirmed appointments</h2>
+
+{% for confirm in confirmed_appointments %}
+
+  <h3 class="text-2xl text-gray-800">{{ confirm }}</h3>
+  <p>NAME: {{ confirm.customer_firstname }} {{ confirm.customer_lastname }}</p>
+  <p>REQUESTED ON: {{ confirm.booked_at }}</p> 
+  <p>CUSTOMER EMAIL: {{ confirm.customer_email }}</p>
+  <p>DATE & TIME: {{ confirm.slot }}</p>
+  
+{% empty %}
+
+  <p>No appointments booked.</p>
+
+{% endfor %} 
+
+<h2 class='mt-2 text-xl'>Your available Time Slots by Date</h2>
+
+{% for date, slots in my_slots %}
+  <h3 class="text-2xl text-gray-800">{{ date }}</h3>
+
+  <ul>
+    {% for slot in slots %}
+      <li>{{ slot.start_time }} - {{ slot.end_time }} </li>
+    {% empty %}
+      <li>No available slots on this date.</li>
+    {% endfor %}
+  </ul>
+
+{% empty %}
+
+  <p>No available time slots.</p>
+
+{% endfor %} 
+
+{% endblock content %}
+
+button to create bulk time slots
+button to create single slots
+edit button, beig able to remove slot and edit user details
+appointments list - able to delete and accept appointment

@@ -81,6 +81,12 @@
             href="{% url 'account_logout' %}"
             class="block py-2 pl-3 pr-4 text-gray-700 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-green-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
             >Logout</a>
+            {% if perms.profiles.access_to_barber_actions %}
+              <a
+              href="{% url 'barbers:barber-profile' user.profile.barber.all.first.slug %}"
+              class="block py-2 pl-3 pr-4 text-gray-700 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-green-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+              >Profile</a>
+            {% endif %}
           {% else %}
             <a
             href="{% url 'account_login' %}"
