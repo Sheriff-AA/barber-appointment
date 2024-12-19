@@ -27,12 +27,25 @@ class BarberListView(generic.ListView):
 
 class BarberDetailView(generic.DetailView):
     template_name = "barbers/detail_barbers.html"
+    context_object_name = 'barber'
 
     def get_queryset(self):
         return Barber.objects.all()
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        available_slots = TimeSlot.objects.filter(
+            barber=self.get_object()).filter(
+            date__gt=now().date()).filter(
+            is_reserved=False).order_by('date', 'start_time')
+
+        grouped_slots = defaultdict(list)
+        for slot in available_slots:
+            grouped_slots[slot.date].append(slot)
+
+        context.update({
+            'my_slots': sorted(grouped_slots.items()),
+        })
 
         return context
 
