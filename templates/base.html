@@ -10,11 +10,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Book My Barber</title>
 
-    {% compress css %} {% include 'css.html' %} {% endcompress %}
+    {% compress css %} 
+      {% include 'css.html' %} 
+    {% endcompress %}
   </head>
 
   <body>
-    {% include 'navbar.html' %} {% include 'js.html' %}
+    {% include 'navbar.html' %}
+    {% include 'js.html' %}
     {% block content %} 
     
     {% endblock content %}
