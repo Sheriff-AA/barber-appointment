@@ -39,7 +39,6 @@ class BarberDetailView(generic.DetailView):
         context = super().get_context_data(**kwargs)
         available_slots = TimeSlot.objects.filter(
             barber=self.get_object()).filter(
-            date__gt=now().date()).filter(
             is_reserved=False).order_by('date', 'start_time')
 
         grouped_slots = defaultdict(list)
@@ -47,7 +46,7 @@ class BarberDetailView(generic.DetailView):
             grouped_slots[slot.date].append(slot)
 
         context.update({
-            'my_slots': sorted(grouped_slots.items()),
+            'slots': available_slots,
         })
 
         return context
@@ -74,7 +73,7 @@ class BarberProfileView(BarberRequiredMixin, generic.DetailView):
             grouped_slots[slot.date].append(slot)
         
         context.update({
-            'my_slots': sorted(grouped_slots.items()),
+            'my_slots': available_slots,
             'requested_appointments': appointments.filter(is_accepted=False),
             'confirmed_appointments': appointments.filter(is_accepted=True)
         })
