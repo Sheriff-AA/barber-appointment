@@ -11,7 +11,7 @@ from profiles.mixins import barber_required
 from .models import TimeSlot, Appointment
 from barbers.models import Barber
 from utils.create_multiple_timeslots import create_timeslots
-from .forms import AppointmentForm, TimeSlotForm, MultipleTimeslotForm
+from .forms import BookAppointmentForm, TimeSlotForm, MultipleTimeslotForm
 
 
 class LandingPageView(generic.TemplateView):
@@ -67,15 +67,23 @@ class AvailableTimeSlotsView(generic.ListView):
         return context
 
 
-class BookAppointmentView(LoginRequiredMixin, generic.CreateView):
+class BookAppointmentView(generic.CreateView):
     model = Appointment
-    form_class = AppointmentForm
+    form_class = BookAppointmentForm
     template_name = 'appointments/book_appointment.html'
     success_url = reverse_lazy('appointment_success')
 
+    def get_form_kwargs(self, **kwargs):
+        kwargs = super(BookAppointmentView, self).get_form_kwargs(**kwargs)
+        kwargs.update({'slot_pk': self.kwargs['pk']})
+        return kwargs
+
     def form_valid(self, form):
-        form.instance.user = self.request.user  # Set the user to the logged-in user
-        slot = form.cleaned_data['slot']
+        # form.instance.user = self.request.user  # Set the user to the logged-in user
+        slot = TimeSlot.objects.get(pk=self.kwargs['pk'])
+        customer_firstname = form.cleaned_data['customer_firstname']
+        customer_lastname = form.cleaned_data['customer_lastname']
+        customer_email = form.cleaned_data['customer_email']
         
         # Check if the time slot is already booked
         if Appointment.objects.filter(slot=slot).exists():

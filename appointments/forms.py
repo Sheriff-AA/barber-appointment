@@ -4,15 +4,16 @@ from django.utils.timezone import now
 from .models import Appointment, TimeSlot
 
 
-class AppointmentForm(forms.ModelForm):
+class BookAppointmentForm(forms.ModelForm):
     class Meta:
         model = Appointment
-        fields = ['slot']
+        fields = ['customer_firstname', 'customer_lastname', 'customer_email', 'slot']
 
     def __init__(self, *args, **kwargs):
+        pk = kwargs.pop("slot_pk")
         super().__init__(*args, **kwargs)
         self.fields['slot'].queryset = TimeSlot.objects.filter(
-            appointments__isnull=True
+            pk=pk
         )  # Only show available time slots
 
 
@@ -54,3 +55,4 @@ class MultipleTimeslotForm(forms.Form):
             }
         )
     )
+

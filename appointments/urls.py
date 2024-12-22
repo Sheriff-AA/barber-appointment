@@ -13,7 +13,7 @@ app_name = "appointments"
 urlpatterns = [
     path('', AppointmentPageView.as_view(), name='index'),
     path('available-slots/', AvailableTimeSlotsView.as_view(), name='available_slots'),
-    path('book/', BookAppointmentView.as_view(), name='book_appointment'),
+    path('book/slot-<int:pk>/', BookAppointmentView.as_view(), name='book_appointment'),
     path('my-appointments/', UserAppointmentsView.as_view(), name='user_appointments'),
     path('all-appointments/', AppointmentsListView.as_view(), name='list_appointments'),
     path('success/', TemplateView.as_view(template_name='appointments/success.html'), name='appointment_success'),

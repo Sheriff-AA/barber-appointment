@@ -32,9 +32,9 @@ class Appointment(models.Model):
     customer_lastname = models.CharField(max_length=45)
     customer_email = models.EmailField(max_length=254)
     slot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE, related_name='appointment')
-    booked_at = models.DateTimeField(auto_now_add=True)
+    requested_on = models.DateTimeField(auto_now_add=True)
+    accepted_on = models.DateTimeField(auto_now_add=False, null=True, blank=True)
     is_accepted = models.BooleanField(default=False)
-# new field like requested_on ad accepted_on
     class Meta:
         unique_together = ('customer_email', 'slot')
 

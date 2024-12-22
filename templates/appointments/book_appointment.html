@@ -1,9 +1,16 @@
-{% extends 'base.html' %} {% block content %}
-<h2>Book an Appointment</h2>
+{% extends 'base.html' %} 
+{% load crispy_forms_tags %}
+{% block content %}
 
-<form method="post">
-  {% csrf_token %} {{ form.as_p }}
-  <button type="submit">Book Appointment</button>
-</form>
+<section class="bg-white dark:bg-gray-900 mx-auto">
+  <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
+    <h1 class="text-2xl font-semibold text-gray-800 dark:text-white mb-5">Book Appointment</h1>
+    <form method="post">
+      {% csrf_token %}
+      {{ form|crispy}}
+      <button type="submit" class="my-3 btn btn-primary">Book Appointment</button>
+    </form>
+  </div>
+<section>
 
 {% endblock content %}
