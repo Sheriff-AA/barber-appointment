@@ -71,7 +71,7 @@ class BookAppointmentView(generic.CreateView):
     model = Appointment
     form_class = BookAppointmentForm
     template_name = 'appointments/book_appointment.html'
-    success_url = reverse_lazy('appointment_success')
+    success_url = reverse_lazy('appointments:appointment_success')
 
     def get_form_kwargs(self, **kwargs):
         kwargs = super(BookAppointmentView, self).get_form_kwargs(**kwargs)
@@ -79,16 +79,16 @@ class BookAppointmentView(generic.CreateView):
         return kwargs
 
     def form_valid(self, form):
-        # form.instance.user = self.request.user  # Set the user to the logged-in user
-        slot = TimeSlot.objects.get(pk=self.kwargs['pk'])
+        slot = form.cleaned_data['slot']
         customer_firstname = form.cleaned_data['customer_firstname']
         customer_lastname = form.cleaned_data['customer_lastname']
         customer_email = form.cleaned_data['customer_email']
+        customer_phone_number = form.cleaned_data['customer_phone_number']
         
-        # Check if the time slot is already booked
-        if Appointment.objects.filter(slot=slot).exists():
-            form.add_error('slot', 'This time slot is already booked.')
-            return self.form_invalid(form)
+        # # Check if the time slot is already booked
+        # if Appointment.objects.filter(slot=slot).exists():
+        #     form.add_error('slot', 'This time slot is already booked.')
+        #     return self.form_invalid(form)
         
         return super().form_valid(form)
     

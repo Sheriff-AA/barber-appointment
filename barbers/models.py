@@ -11,7 +11,7 @@ class Barber(models.Model):
     slug = models.SlugField(null=True, blank=True, unique=True)
 
     def __str__(self):
-        return f"{self.profile.user.username}"
+        return f"{self.name} - {self.shop_name}"
     
     def save(self, *args, **kwargs):
         self.slug = f"{self.profile.user.username}".split('-')[1]

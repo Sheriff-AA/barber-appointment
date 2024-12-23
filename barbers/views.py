@@ -41,9 +41,9 @@ class BarberDetailView(generic.DetailView):
             barber=self.get_object()).filter(
             is_reserved=False).order_by('date', 'start_time')
 
-        grouped_slots = defaultdict(list)
-        for slot in available_slots:
-            grouped_slots[slot.date].append(slot)
+        # grouped_slots = defaultdict(list)
+        # for slot in available_slots:
+        #     grouped_slots[slot.date].append(slot)
 
         context.update({
             'slots': available_slots,
@@ -68,9 +68,9 @@ class BarberProfileView(BarberRequiredMixin, generic.DetailView):
         appointments = Appointment.objects.filter(slot__barber=self.get_object())
 
         # Group time slots by date
-        grouped_slots = defaultdict(list)
-        for slot in available_slots:
-            grouped_slots[slot.date].append(slot)
+        # grouped_slots = defaultdict(list)
+        # for slot in available_slots:
+        #     grouped_slots[slot.date].append(slot)
         
         context.update({
             'my_slots': available_slots,
