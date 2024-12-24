@@ -18,10 +18,11 @@
 
 {% for request in requested_appointments %}
 
-  <h3 class="text-2xl text-gray-800">{{ request }}</h3>
+  <h3 class="text-l text-gray-800">{{ request }}</h3>
   <p>NAME: {{ request.customer_firstname }} {{ request.customer_lastname }}</p>
-  <p>REQUESTED ON: {{ request.booked_at }}</p> 
+  <p>REQUESTED ON: {{ request.requested_on|date:"F j, Y, g:i a" }}</p> 
   <p>CUSTOMER EMAIL: {{ request.customer_email }}</p>
+  <p>CUSTOMER CONTACT: {{ request.customer_phone_number }}</p>
   <p>DATE & TIME: {{ request.slot }}</p>
 
 {% empty %}
