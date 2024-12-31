@@ -11,7 +11,7 @@ from profiles.mixins import barber_required
 from .models import TimeSlot, Appointment
 from barbers.models import Barber
 from utils.create_multiple_timeslots import create_timeslots
-from .forms import BookAppointmentForm, TimeSlotForm, MultipleTimeslotForm
+from .forms import RequestAppointmentForm, TimeSlotForm, MultipleTimeslotForm
 
 
 class LandingPageView(generic.TemplateView):
@@ -67,15 +67,15 @@ class AvailableTimeSlotsView(generic.ListView):
         return context
 
 
-class BookAppointmentView(generic.CreateView):
+class RequestAppointmentCreateView(generic.CreateView):
     model = Appointment
-    form_class = BookAppointmentForm
-    template_name = 'appointments/book_appointment.html'
+    form_class = RequestAppointmentForm
+    template_name = 'appointments/request_appointment.html'
     success_url = reverse_lazy('appointments:appointment_success')
 
     def get_form_kwargs(self, **kwargs):
-        kwargs = super(BookAppointmentView, self).get_form_kwargs(**kwargs)
-        kwargs.update({'slot_pk': self.kwargs['pk']})
+        kwargs = super(RequestAppointmentCreateView, self).get_form_kwargs(**kwargs)
+        kwargs.update({'slot_pk': self.kwargs['slug']})
         return kwargs
 
     def form_valid(self, form):
@@ -142,3 +142,4 @@ def create_multiple_timeslots(request):
         form = MultipleTimeslotForm()
 
     return render(request, "appointments/create_multiple_timeslots.html", {"form": form})
+

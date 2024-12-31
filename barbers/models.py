@@ -1,4 +1,5 @@
 from django.db import models
+import uuid
 
 from profiles.models import UserProfile
 
@@ -24,6 +25,8 @@ class Comment(models.Model):
     barber = models.ForeignKey(Barber, on_delete=models.CASCADE)
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
+    id = models.UUIDField(default=uuid.uuid4, unique=True,
+          primary_key=True, editable=False)
 
 
 

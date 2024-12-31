@@ -5,7 +5,7 @@ from django.utils.timezone import now
 from .models import Appointment, TimeSlot
 
 
-class BookAppointmentForm(forms.ModelForm):
+class RequestAppointmentForm(forms.ModelForm):
     slot_display = forms.CharField(disabled=True, required=False, label='Time Slot')
 
     class Meta:
