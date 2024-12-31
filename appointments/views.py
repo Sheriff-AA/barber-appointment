@@ -6,7 +6,7 @@ from django.utils.timezone import now
 from collections import defaultdict
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from profiles.mixins import barber_required
+from profiles.mixins import barber_required, BarberRequiredMixin
 
 from .models import TimeSlot, Appointment
 from barbers.models import Barber
@@ -103,7 +103,7 @@ class UserAppointmentsView(LoginRequiredMixin, generic.ListView):
         return Appointment.objects.filter(user=self.request.user).order_by('slot__date', 'slot__start_time')
 
 
-class CreateBarberTimeSlotsView(generic.CreateView):
+class CreateBarberTimeSlotsView(BarberRequiredMixin, generic.CreateView):
     model = TimeSlot
     form_class = TimeSlotForm
     template_name = 'appointments/create_barber_timeslots.html'

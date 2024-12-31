@@ -12,10 +12,22 @@
     Update Profile
     </button>
   </a>
+
+  <a href="{% url 'appointments:create_timeslots' %}">
+    <button class="block text-white bg-blue-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" type="button">
+    Create Time Slots
+    </button>
+  </a>
+
+  <a href="{% url 'appointments:create_multiple_timeslots' %}">
+    <button class="block text-white bg-blue-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" type="button">
+    Create Batch Time Slots
+    </button>
+  </a>
 </div>
 
 <h2 class='mt-2 text-xl'>Your requested appointments</h2>
-
+{% include 'barbers/barber_appointment_requests.html' %}
 {% for request in requested_appointments %}
 
   <h3 class="text-l text-gray-800">{{ request }}</h3>

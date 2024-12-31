@@ -5,10 +5,11 @@
   </div>
 </div>
 
+{% if slots %}
 <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
   <div class="mx-auto max-w-5xl">
-    <div class="gap-4 md:flex md:items-center md:justify-between">
-      <h2 class="text-m mt-7 font-semibold text-gray-900 dark:text-white sm:text-xl">Dates</h2>
+    <div class="gap-2 md:flex md:items-center md:justify-between">
+      <h2 class="text-m mt-7 font-semibold text-gray-900 dark:text-white">Dates</h2>
 
       <div class="mt-5 gap-4 space-y-4 sm:flex sm:items-center sm:space-y-0 md:mt-0 md:justify-end">
         <div>
@@ -79,7 +80,7 @@
         </div>
       </div>
     {% empty %}
-      <li>No available slots on this date.</li>
+      <li>Barber has no open time slots</li>
     {% endfor %}
 
     <nav class="mt-2 flex items-center justify-center sm:mt-8" aria-label="Page navigation example">
@@ -119,4 +120,10 @@
     </nav>
   </div>
 </div>
+{% else %}
+  <div class="flex items-center justify-center h-96">
+    <p class="text-lg font-semibold text-gray-900 dark:text-white">No time slots available</p>
+  </div>
+{% endif %}
+
   

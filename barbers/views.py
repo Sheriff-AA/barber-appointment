@@ -9,7 +9,7 @@ from profiles.mixins import BarberRequiredMixin
 from appointments.models import TimeSlot, Appointment
 
 
-class BarberProfileUpdateView(generic.UpdateView):
+class BarberProfileUpdateView(BarberRequiredMixin, generic.UpdateView):
     template_name = "barbers/barber_profile_edit.html"
     form_class = EditBarberProfileModelForm
 
@@ -103,3 +103,4 @@ class BarbersTimeslotListTemplateView(generic.TemplateView):
             })
             
         return render(request, self.template_name, context)
+    

@@ -13,9 +13,9 @@ class RequestAppointmentForm(forms.ModelForm):
         fields = ['customer_firstname', 'customer_lastname', 'customer_email', 'customer_phone_number', 'slot', 'slot_display']
 
     def __init__(self, *args, **kwargs):
-        pk = kwargs.pop("slot_pk")
+        slug = kwargs.pop("slot_pk")
         super().__init__(*args, **kwargs)
-        timeslot = TimeSlot.objects.get(pk=pk)
+        timeslot = TimeSlot.objects.get(slug=slug)
         self.fields['slot_display'].initial = str(timeslot)
         self.fields['slot'].widget = forms.HiddenInput()
         self.fields['slot'].initial = timeslot
