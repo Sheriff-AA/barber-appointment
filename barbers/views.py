@@ -104,3 +104,32 @@ class BarbersTimeslotListTemplateView(generic.TemplateView):
             
         return render(request, self.template_name, context)
     
+
+class BarberAppointmentDeleteView(generic.DeleteView):
+    model = Appointment
+    template_name = "barbers/barber_timeslot_delete.html"
+
+    def get_success_url(self):
+        return reverse("barbers:barber-timeslots", kwargs={'slug': self.get_object().barber.slug })
+    
+
+class BarberAppointmentAcceptView(generic.UpdateView):
+    model = Appointment
+    template_name = "barbers/partials/modals/success_request.html"
+
+    def get_success_url(self):
+        return reverse("barbers:barber-profile", kwargs={'slug': self.get_object().barber.slug })
+    
+    def form_valid(self, form):
+        return super().form_valid(form)
+    
+
+class BarberAppointmentDetailView(generic.TemplateView):
+    template_name = "barbers/partials/modals/barber_appointment_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'appointment': Appointment.objects.get(slug=context['slug'])
+        })
+        return context

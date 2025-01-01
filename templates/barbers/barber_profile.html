@@ -243,6 +243,18 @@
   </div>
 </div>
 
+<div id="acceptModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] md:h-full">
+  <div class="relative p-4 w-full max-w-md h-full md:h-auto">
+    {% include 'barbers/partials/modals/accept_request.html' %}
+  </div>
+</div>
+
+<div id="deleteModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] md:h-full">
+  <div class="relative p-4 w-full max-w-md h-full md:h-auto">
+    {% include 'barbers/partials/modals/reject_request.html' %}
+  </div>
+</div>
+
 {% endblock content %}
 
 button to create bulk time slots
