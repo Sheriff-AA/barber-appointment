@@ -28,20 +28,7 @@
 
 <h2 class='mt-2 text-xl'>Your requested appointments</h2>
 {% include 'barbers/barber_appointment_requests.html' %}
-{% for request in requested_appointments %}
 
-  <h3 class="text-l text-gray-800">{{ request }}</h3>
-  <p>NAME: {{ request.customer_firstname }} {{ request.customer_lastname }}</p>
-  <p>REQUESTED ON: {{ request.requested_on|date:"F j, Y, g:i a" }}</p> 
-  <p>CUSTOMER EMAIL: {{ request.customer_email }}</p>
-  <p>CUSTOMER CONTACT: {{ request.customer_phone_number }}</p>
-  <p>DATE & TIME: {{ request.slot }}</p>
-
-{% empty %}
-
-  <p>No appointments requested.</p>
-
-{% endfor %} 
 
 <h2 class='mt-2 text-xl'>Your confirmed appointments</h2>
 
@@ -245,16 +232,56 @@
 
 <div id="acceptModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] md:h-full">
   <div class="relative p-4 w-full max-w-md h-full md:h-auto">
-    {% include 'barbers/partials/modals/accept_request.html' %}
+    <!-- Modal content -->
+    <div class="relative p-4 text-center bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">          
+        <button id="closeModal" type="button" class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="acceptModal">
+            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            <span class="sr-only">Close modal</span>
+        </button>
+        <div id="accept-target">
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<div id="deleteModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] md:h-full">
+<div id="rejectModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] md:h-full">
   <div class="relative p-4 w-full max-w-md h-full md:h-auto">
-    {% include 'barbers/partials/modals/reject_request.html' %}
+    <!-- Modal content -->
+    <div class="relative p-4 text-center bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">          
+        <button id="rejectCloseModal" type="button" class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="rejectModal">
+            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            <span class="sr-only">Close modal</span>
+        </button>
+        <div id="reject-target">
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const acceptModal = document.getElementById('acceptModal');
+    const rejectModal = document.getElementById('rejectModal');
+    
+    const targetButton = document.getElementById('closeModal');
+    const rejectTargetButton = document.getElementById('rejectCloseModal');
+
+    acceptModal.addEventListener('click', (event) => {
+      if (event.target && event.target.id === 'cancelButton') {
+        targetButton.click(); // Close the modal
+      }
+    });
+
+    rejectModal.addEventListener('click', (event) => {
+      if (event.target && event.target.id === 'rejectCancelButton') {
+        rejectTargetButton.click(); // Close the modal
+      }
+    });
+  });
+
+</script>
 {% endblock content %}
 
 button to create bulk time slots

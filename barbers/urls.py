@@ -27,6 +27,6 @@ urlpatterns = [
     path('<slug:slug>/profile', BarberProfileDetailView.as_view(), name='barber-profile'),
 
     path('<slug:slug>/timeslots', BarbersTimeslotListTemplateView.as_view(), name='barber-timeslots'),
-    path('<slug:slug>/delete', BarberAppointmentDeleteView.as_view(), name='delete-appointment'),
+    path('<slug:slug>/delete', BarberAppointmentDeleteView.as_view(), name='reject-appointment'),
     path('<slug:slug>/accept', BarberAppointmentAcceptView.as_view(), name='accept-appointment'),
 ]

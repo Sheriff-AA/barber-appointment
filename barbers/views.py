@@ -1,4 +1,4 @@
-from django.shortcuts import render, reverse
+from django.shortcuts import render, reverse, get_object_or_404
 from django.views import generic
 from django.utils.timezone import now
 from collections import defaultdict
@@ -105,23 +105,40 @@ class BarbersTimeslotListTemplateView(generic.TemplateView):
         return render(request, self.template_name, context)
     
 
-class BarberAppointmentDeleteView(generic.DeleteView):
-    model = Appointment
-    template_name = "barbers/barber_timeslot_delete.html"
+class BarberAppointmentDeleteView(BarberRequiredMixin, generic.TemplateView):
+    template_name = "barbers/partials/modals/reject_request.html"
 
-    def get_success_url(self):
-        return reverse("barbers:barber-timeslots", kwargs={'slug': self.get_object().barber.slug })
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)        
+        context.update({
+            'appointment': Appointment.objects.get(slug=context['slug'])
+        }) 
+        return render(request, self.template_name, context)
+    
+    def post(self, request, *args, **kwargs):
+        appointment = get_object_or_404(Appointment, slug=kwargs['slug'])
+        appointment.delete()
+        return render(request, "barbers/partials/modals/success_request.html")
     
 
-class BarberAppointmentAcceptView(generic.UpdateView):
-    model = Appointment
-    template_name = "barbers/partials/modals/success_request.html"
+class BarberAppointmentAcceptView(BarberRequiredMixin, generic.TemplateView):
+    template_name = "barbers/partials/modals/accept_request.html"
 
-    def get_success_url(self):
-        return reverse("barbers:barber-profile", kwargs={'slug': self.get_object().barber.slug })
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)        
+        context.update({
+            'appointment': Appointment.objects.get(slug=context['slug'])
+        }) 
+        return render(request, self.template_name, context)
     
-    def form_valid(self, form):
-        return super().form_valid(form)
+    def post(self, request, *args, **kwargs):
+        appointment = Appointment.objects.get(slug=kwargs['slug'])
+        appointment.is_accepted = True
+        appointment.accepted_on = now()
+        appointment.save()
+
+        return render(request, "barbers/partials/modals/success_request.html")
+
     
 
 class BarberAppointmentDetailView(generic.TemplateView):
