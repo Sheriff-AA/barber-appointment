@@ -87,7 +87,7 @@ class BarbersTimeslotListTemplateView(generic.TemplateView):
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
-        barber = Barber.objects.get(slug=context['slug'])
+        barber = get_object_or_404(Barber, slug=context['slug'])
         available_slots = TimeSlot.objects.filter(
             barber=barber).filter(
             is_reserved=False).order_by('date', 'start_time')
@@ -111,7 +111,7 @@ class BarberAppointmentDeleteView(BarberRequiredMixin, generic.TemplateView):
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)        
         context.update({
-            'appointment': Appointment.objects.get(slug=context['slug'])
+            'appointment': get_object_or_404(Appointment, slug=context['slug'])
         }) 
         return render(request, self.template_name, context)
     
@@ -127,15 +127,18 @@ class BarberAppointmentAcceptView(BarberRequiredMixin, generic.TemplateView):
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)        
         context.update({
-            'appointment': Appointment.objects.get(slug=context['slug'])
+            'appointment': get_object_or_404(Appointment, slug=context['slug'])
         }) 
         return render(request, self.template_name, context)
     
     def post(self, request, *args, **kwargs):
-        appointment = Appointment.objects.get(slug=kwargs['slug'])
+        appointment = get_object_or_404(Appointment, slug=kwargs['slug'])
         appointment.is_accepted = True
+        appointment.slot.is_reserved = True
         appointment.accepted_on = now()
         appointment.save()
+
+        Appointment.objects.filter(slot=appointment.slot).exclude(slug=appointment.slug).delete()
 
         return render(request, "barbers/partials/modals/success_request.html")
 
@@ -147,6 +150,6 @@ class BarberAppointmentDetailView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            'appointment': Appointment.objects.get(slug=context['slug'])
+            'appointment': get_object_or_404(Appointment, slug=context['slug'])
         })
         return context
