@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, reverse, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 from django.http import JsonResponse, HttpResponseRedirect
@@ -106,7 +106,7 @@ class UserAppointmentsView(LoginRequiredMixin, generic.ListView):
 class CreateBarberTimeSlotsView(BarberRequiredMixin, generic.CreateView):
     model = TimeSlot
     form_class = TimeSlotForm
-    template_name = 'appointments/create_barber_timeslots.html'
+    template_name = 'appointments/barber_create_single_timeslots.html'
 
 
 @barber_required
@@ -134,12 +134,62 @@ def create_multiple_timeslots(request):
                 )
             else:
                 # pass specific error to form or do it in forms
-                return render(request, "appointments/create_multiple_timeslots.html", {"form": form})
+                return render(request, "appointments/barber_create_multiple_timeslots.html", {"form": form})
             return HttpResponseRedirect("success/")
 
     # if a GET (or any other method) we'll create a blank form
     else:
         form = MultipleTimeslotForm()
 
-    return render(request, "appointments/create_multiple_timeslots.html", {"form": form})
+    return render(request, "appointments/barber_create_multiple_timeslots.html", {"form": form})
 
+
+
+class BarberAppointmentDeleteView(BarberRequiredMixin, generic.TemplateView):
+    template_name = "appointments/partials/modals/reject_request.html"
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)        
+        context.update({
+            'appointment': get_object_or_404(Appointment, slug=context['slug'])
+        }) 
+        return render(request, self.template_name, context)
+    
+    def post(self, request, *args, **kwargs):
+        appointment = get_object_or_404(Appointment, slug=kwargs['slug'])
+        appointment.delete()
+        return render(request, "appointments/partials/modals/success_request.html")
+    
+
+class BarberAppointmentAcceptView(BarberRequiredMixin, generic.TemplateView):
+    template_name = "appointments/partials/modals/accept_request.html"
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)        
+        context.update({
+            'appointment': get_object_or_404(Appointment, slug=context['slug'])
+        }) 
+        return render(request, self.template_name, context)
+    
+    def post(self, request, *args, **kwargs):
+        appointment = get_object_or_404(Appointment, slug=kwargs['slug'])
+        appointment.is_accepted = True
+        appointment.slot.is_reserved = True
+        appointment.accepted_on = now()
+        appointment.save()
+
+        Appointment.objects.filter(slot=appointment.slot).exclude(slug=appointment.slug).delete()
+
+        return render(request, "appointments/partials/modals/success_request.html")
+
+    
+
+class BarberAppointmentDetailView(generic.TemplateView):
+    template_name = "appointments/partials/modals/barber_appointment_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'appointment': get_object_or_404(Appointment, slug=context['slug'])
+        })
+        return context
