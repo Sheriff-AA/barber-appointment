@@ -28,23 +28,8 @@
 
 {% include 'barbers/partials/barber_appointment_requests.html' %}
 
+{% include 'barbers/partials/barber_appointments_confirmed.html' %}
 
-<h2 class='mt-2 text-xl'>Your confirmed appointments</h2>
-
-{% for confirm in confirmed_appointments %}
-
-  <h3 class="text-2xl text-gray-800">{{ confirm }}</h3>
-  <p>NAME: {{ confirm.customer_firstname }} {{ confirm.customer_lastname }}</p>
-  <p>REQUESTED ON: {{ confirm.requested_on|date:"F j, Y, g:i a" }}</p> 
-  <p>CUSTOMER EMAIL: {{ confirm.customer_email }}</p>
-  <p>CUSTOMER CONTACT: {{ confirm.customer_phone_number }}</p>
-  <p>DATE & TIME: {{ confirm.slot }}</p>
-  
-{% empty %}
-
-  <p>No appointments booked.</p>
-
-{% endfor %} 
 
 <section class="bg-white pb-8 dark:bg-gray-900">
   {% include 'barbers/partials/barber_timeslots.html' %}
