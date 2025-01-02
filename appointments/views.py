@@ -146,7 +146,7 @@ def create_multiple_timeslots(request):
 
 
 class BarberAppointmentDeleteView(BarberRequiredMixin, generic.TemplateView):
-    template_name = "appointments/partials/modals/reject_request.html"
+    template_name = "appointments/partials/modals/reject_appointment.html"
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)        
@@ -158,11 +158,11 @@ class BarberAppointmentDeleteView(BarberRequiredMixin, generic.TemplateView):
     def post(self, request, *args, **kwargs):
         appointment = get_object_or_404(Appointment, slug=kwargs['slug'])
         appointment.delete()
-        return render(request, "appointments/partials/modals/success_request.html")
+        return render(request, "appointments/partials/modals/success_appointment.html")
     
 
 class BarberAppointmentAcceptView(BarberRequiredMixin, generic.TemplateView):
-    template_name = "appointments/partials/modals/accept_request.html"
+    template_name = "appointments/partials/modals/accept_appointment.html"
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)        
@@ -180,12 +180,12 @@ class BarberAppointmentAcceptView(BarberRequiredMixin, generic.TemplateView):
 
         Appointment.objects.filter(slot=appointment.slot).exclude(slug=appointment.slug).delete()
 
-        return render(request, "appointments/partials/modals/success_request.html")
+        return render(request, "appointments/partials/modals/success_appointment.html")
 
     
 
-class BarberAppointmentDetailView(generic.TemplateView):
-    template_name = "appointments/partials/modals/barber_appointment_detail.html"
+class BarberAppointmentReadDetailView(generic.TemplateView):
+    template_name = "appointments/partials/modals/read_appointment_details.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

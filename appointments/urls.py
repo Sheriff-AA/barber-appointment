@@ -11,6 +11,7 @@ from .views import (
     CreateBarberTimeSlotsView,
     BarberAppointmentDeleteView,
     BarberAppointmentAcceptView,
+    BarberAppointmentReadDetailView,
     event_list, 
     create_multiple_timeslots
 )
@@ -35,4 +36,5 @@ urlpatterns = [
 
     path('<slug:slug>/delete', BarberAppointmentDeleteView.as_view(), name='reject-appointment'),
     path('<slug:slug>/accept', BarberAppointmentAcceptView.as_view(), name='accept-appointment'),
+    path('<slug:slug>/details', BarberAppointmentReadDetailView.as_view(), name='read-appointment-detail'),
 ]
