@@ -27,8 +27,9 @@ class User(AbstractUser):
 
     def save(self, *args, **kwargs):
         # email_prefix = f"{self.email}".split('@')[0]
-        new_slug = f"user-{password_gen()}" 
-        unique_username(self, new_slug)
+        if not self.username:
+            new_username = f"user-{password_gen()}" 
+            unique_username(self, new_username)
         super().save(*args, **kwargs)
 
 

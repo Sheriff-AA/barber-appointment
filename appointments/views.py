@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.http import JsonResponse, HttpResponseRedirect
 from django.utils.timezone import now
+from datetime import timedelta, datetime
 from collections import defaultdict
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -11,7 +12,7 @@ from profiles.mixins import barber_required, BarberRequiredMixin
 from .models import TimeSlot, Appointment
 from barbers.models import Barber
 from utils.create_multiple_timeslots import create_timeslots
-from .forms import RequestAppointmentForm, TimeSlotForm, MultipleTimeslotForm
+from .forms import RequestAppointmentForm, TimeSlotForm, MultipleTimeslotForm, SingleTimeslotForm
 
 
 class LandingPageView(generic.TemplateView):
@@ -103,12 +104,6 @@ class UserAppointmentsView(LoginRequiredMixin, generic.ListView):
         return Appointment.objects.filter(user=self.request.user).order_by('slot__date', 'slot__start_time')
 
 
-class CreateBarberTimeSlotsView(BarberRequiredMixin, generic.CreateView):
-    model = TimeSlot
-    form_class = TimeSlotForm
-    template_name = 'appointments/barber_create_single_timeslots.html'
-
-
 @barber_required
 def create_multiple_timeslots(request):
     if request.method == "POST":
@@ -142,6 +137,43 @@ def create_multiple_timeslots(request):
         form = MultipleTimeslotForm()
 
     return render(request, "appointments/barber_create_multiple_timeslots.html", {"form": form})
+
+
+@barber_required
+def create_single_timeslots(request):
+    if request.method == "POST":
+        # create a form instance and populate it with data from the request:
+        form = SingleTimeslotForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            slot_date = form.cleaned_data['slot_date']
+            days_to_create = 1
+            slot_duration = form.cleaned_data['slot_duration']
+            starting_time = form.cleaned_data['starting_time']
+
+            duration = timedelta(minutes=slot_duration)
+            closing_time = (datetime.combine(slot_date, starting_time) + duration).time()
+            barber_user = Barber.objects.get(profile=request.user.profile)
+
+            if starting_time < closing_time:
+                create_timeslots(
+                    start_date=slot_date,
+                    days_to_create=days_to_create,
+                    duration=slot_duration,
+                    opening_hour=starting_time,
+                    closing_hour=closing_time,
+                    barber_user=barber_user
+                )
+            else:
+                # pass specific error to form or do it in forms
+                return render(request, "appointments/barber_create_single_timeslots.html", {"form": form})
+            return HttpResponseRedirect("success/")
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = SingleTimeslotForm()
+
+    return render(request, "appointments/barber_create_single_timeslots.html", {"form": form})
 
 
 

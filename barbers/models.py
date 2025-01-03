@@ -15,7 +15,8 @@ class Barber(models.Model):
         return f"{self.name} - {self.shop_name}"
     
     def save(self, *args, **kwargs):
-        self.slug = f"{self.profile.user.username}".split('-')[1]
+        if not self.slug:
+            self.slug = f"{self.profile.user.username}".split('-')[1]
         super().save(*args, **kwargs)
 
 

@@ -30,8 +30,9 @@ class TimeSlot(models.Model):
         return f"{formatted_date(self.date)} from {self.start_time.strftime('%H:%M')} to {self.end_time.strftime('%H:%M')} with {self.barber}"
     
     def save(self, *args, **kwargs):
-        new_slug = f"{random_string(10)}" 
-        unique_slug(self, new_slug)
+        if not self.slug:
+            new_slug = f"{random_string(10)}" 
+            unique_slug(self, new_slug)
         super().save(*args, **kwargs)
     
 
@@ -53,8 +54,9 @@ class Appointment(models.Model):
         return f"Appointment with {self.customer_firstname} {self.customer_lastname} on {self.slot}"
     
     def save(self, *args, **kwargs):
-        new_slug = f"{random_string(10)}" 
-        unique_slug(self, new_slug)
+        if not self.slug:
+            new_slug = f"{random_string(10)}" 
+            unique_slug(self, new_slug)
         super().save(*args, **kwargs)
     
 

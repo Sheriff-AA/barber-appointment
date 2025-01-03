@@ -39,6 +39,33 @@ class TimeSlotForm(forms.ModelForm):
     class Meta:
         model = TimeSlot
         fields = ["date", "start_time", "end_time", "is_reserved"]
+        widgets = {
+            "date": forms.DateInput(attrs={"type": "date", "class": "form-control"}),
+            "start_time": forms.DateTimeInput(attrs={"class": "form-control"}),
+            "end_time": forms.DateTimeInput(attrs={"class": "form-control"}),
+            "is_reserved": forms.CheckboxInput(attrs={"class": "form-check-input"}),
+        }
+
+class SingleTimeslotForm(forms.Form):
+    slot_date = forms.DateField(
+        widget=forms.DateInput(
+            attrs={
+                'type': 'date', 
+                'class': 'datepicker'
+            },
+        )
+    )
+    slot_duration = forms.IntegerField(min_value=30, label='Slot duration (in mintes)')
+    starting_time = forms.TimeField(
+        label='Start time (such as, 08:15 AM/PM)',
+        widget=forms.TimeInput(
+            attrs={
+                'class': 'form-control',
+                'type': 'time',
+            }
+        )
+    )
+
 
 
 class MultipleTimeslotForm(forms.Form):
@@ -57,7 +84,7 @@ class MultipleTimeslotForm(forms.Form):
     days_to_create = forms.IntegerField(min_value=1)
     slot_duration = forms.IntegerField(min_value=30, label='Slot duration (in mintes)')
     opening_hour = forms.TimeField(
-        label='Opeing hour (08:00 AM)',
+        label='Opening hour (08:00 AM/PM)',
         widget=forms.TimeInput(
             attrs={
                 'class': 'form-control',
@@ -66,7 +93,7 @@ class MultipleTimeslotForm(forms.Form):
         )
     )
     closing_hour = forms.TimeField(
-        label='Closing hour (05:00 PM)',
+        label='Closing hour (05:00 AM/PM)',
         widget=forms.TimeInput(
             attrs={
                 'type': 'time'

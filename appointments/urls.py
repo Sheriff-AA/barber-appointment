@@ -8,12 +8,12 @@ from .views import (
     RequestAppointmentCreateView, 
     UserAppointmentsView, 
     AppointmentsListView, 
-    CreateBarberTimeSlotsView,
     BarberAppointmentDeleteView,
     BarberAppointmentAcceptView,
     BarberAppointmentReadDetailView,
     event_list, 
-    create_multiple_timeslots
+    create_multiple_timeslots,
+    create_single_timeslots
 )
 
 """
@@ -30,8 +30,8 @@ urlpatterns = [
     path('all-appointments/', AppointmentsListView.as_view(), name='list_appointments'),
 
     path('success/', TemplateView.as_view(template_name='appointments/success.html'), name='appointment_success'),
-    path('create-timeslots', CreateBarberTimeSlotsView.as_view(), name='create_timeslots'),
     path('create-bulk-timeslots', create_multiple_timeslots, name='create_multiple_timeslots'),
+    path('create-single-timeslot', create_single_timeslots, name='create_single_timeslots'),
     path('events/json/', event_list, name='event_list'),  # Event JSON data
 
     path('<slug:slug>/delete', BarberAppointmentDeleteView.as_view(), name='reject-appointment'),
