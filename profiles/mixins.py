@@ -16,6 +16,41 @@ class CustomerRequiredMixin(UserPassesTestMixin):
         return self.request.user.has_perm('profiles.access_to_customer_actions')
     
 
+class OwnershipMixin:
+    """
+    A mixin to check if the request.user is the owner of the target object or related models.
+    For TemplateView, the object must be explicitly defined or fetched in the mixin.
+    """
+    def get_target_object(self):
+        """
+        Override this method in the view to define how to get the target object.
+        """
+        raise NotImplementedError(
+            "You must define `get_target_object` in your view or provide an object fetching method."
+        )
+
+    def dispatch(self, request, *args, **kwargs):
+        # Fetch the object to check ownership
+        obj = self.get_target_object()
+
+        # Determine ownership
+        is_owner = False
+
+        if hasattr(obj, 'user') and obj.user == request.user:
+            is_owner = True
+
+        # Check related model ownership if needed
+        related_models = getattr(obj, 'related_models', [])
+        for related in related_models:
+            if hasattr(related, 'user') and related.user == request.user:
+                is_owner = True
+                break
+
+        # Add the `is_owner` flag to kwargs for use in the context
+        kwargs['is_owner'] = is_owner
+
+        return super().dispatch(request, *args, **kwargs)
+    
 
 # def barber_required(f):
 #     @wraps(f)

@@ -4,3 +4,35 @@
 <script src="{% static 'vendors/htmx.min.js' %}"></script>
 <script src="{% static 'vendors/fullcalendar.min.js' %}"></script>
 
+
+<script>
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    const acceptModal = document.getElementById('acceptAppointmentModal');
+    const deleteTimeslotModal = document.getElementById('deleteTimeslotModal');
+    const rejectModal = document.getElementById('rejectAppointmentModal');
+    
+    const targetButton = document.getElementById('acceptAppointmentCloseModal');
+    const targetButton = document.getElementById('deleteTimeslotCloseModal');
+    const rejectTargetButton = document.getElementById('rejectAppointmentCloseModal');
+
+    acceptModal.addEventListener('click', (event) => {
+      if (event.target && event.target.id === 'acceptAppointmentCancelButton') {
+        targetButton.click(); // Close the modal
+      }
+    });
+    deleteTimeslotModal.addEventListener('click', (event) => {
+      if (event.target && event.target.id === 'deleteTimeslotCancelButton') {
+        targetButton.click(); // Close the modal
+      }
+    });
+
+    rejectModal.addEventListener('click', (event) => {
+      if (event.target && event.target.id === 'rejectAppointmentCancelButton') {
+        rejectTargetButton.click(); // Close the modal
+      }
+    });
+  });
+
+</script>
+

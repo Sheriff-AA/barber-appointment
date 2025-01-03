@@ -12,7 +12,11 @@ from profiles.mixins import barber_required, BarberRequiredMixin
 from .models import TimeSlot, Appointment
 from barbers.models import Barber
 from utils.create_multiple_timeslots import create_timeslots
-from .forms import RequestAppointmentForm, TimeSlotForm, MultipleTimeslotForm, SingleTimeslotForm
+from .forms import (
+    RequestAppointmentForm, 
+    MultipleTimeslotForm, 
+    SingleTimeslotForm
+)
 
 
 class LandingPageView(generic.TemplateView):
@@ -215,7 +219,6 @@ class BarberAppointmentAcceptView(BarberRequiredMixin, generic.TemplateView):
         return render(request, "appointments/partials/modals/success_appointment.html")
 
     
-
 class BarberAppointmentReadDetailView(generic.TemplateView):
     template_name = "appointments/partials/modals/read_appointment_details.html"
 
@@ -225,3 +228,4 @@ class BarberAppointmentReadDetailView(generic.TemplateView):
             'appointment': get_object_or_404(Appointment, slug=context['slug'])
         })
         return context
+

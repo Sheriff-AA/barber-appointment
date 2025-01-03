@@ -5,7 +5,7 @@ from collections import defaultdict
 
 from .forms import EditBarberProfileModelForm
 from .models import Barber
-from profiles.mixins import BarberRequiredMixin
+from profiles.mixins import BarberRequiredMixin, OwnershipMixin
 from appointments.models import TimeSlot, Appointment
 
 
@@ -53,9 +53,12 @@ class BarberDetailView(generic.DetailView):
         return context
 
 
-class BarberProfileDetailView(BarberRequiredMixin, generic.DetailView):
+class BarberProfileDetailView(OwnershipMixin, BarberRequiredMixin, generic.DetailView):
     template_name = "barbers/barber_profile.html"
     context_object_name = 'barber'
+
+    def get_target_object(self):
+        return self.get_object().profile
 
     def get_queryset(self):
         return Barber.objects.all()
@@ -76,14 +79,18 @@ class BarberProfileDetailView(BarberRequiredMixin, generic.DetailView):
         context.update({
             'slots': available_slots,
             'requested_appointments': appointments.filter(is_accepted=False),
-            'confirmed_appointments': appointments.filter(is_accepted=True)
+            'confirmed_appointments': appointments.filter(is_accepted=True),
+            'is_owner': True
         })
 
         return context
     
 
-class BarbersTimeslotListTemplateView(generic.TemplateView):
+class BarbersTimeslotListTemplateView(OwnershipMixin, generic.TemplateView):
     template_name = "barbers/partials/barber_timeslots.html"
+
+    def get_target_object(self):
+        return get_object_or_404(Barber, slug=self.kwargs.get('slug')).profile
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
@@ -97,11 +104,28 @@ class BarbersTimeslotListTemplateView(generic.TemplateView):
             'barber': barber
         })
         
-        if request.user.is_authenticated and request.user.has_perm('profiles.access_to_barber_actions'):
-            context.update({
-                'is_barber': True
-            })
             
         return render(request, self.template_name, context)
     
 
+class BarberTimeslotDeleteView(OwnershipMixin, BarberRequiredMixin, generic.TemplateView):
+    template_name = "barbers/partials/modals/delete_timeslots.html"
+
+    def get_target_object(self):
+        return get_object_or_404(TimeSlot, slug=self.kwargs.get('slug')).barber.profile
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        slot = get_object_or_404(TimeSlot, slug=context['slug'])
+        
+        context.update({
+            'slot': slot
+        })
+        
+        return render(request, self.template_name, context)
+    
+    def post(self, request, *args, **kwargs):
+        slot = get_object_or_404(TimeSlot, slug=kwargs['slug'])
+        slot.delete()
+        return render(request, "barbers/barber_profile.html", kwargs={'slug': slot.barber.slug})
+    

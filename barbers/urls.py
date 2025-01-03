@@ -7,6 +7,7 @@ from .views import (
     BarberDetailView, 
     BarberProfileUpdateView, 
     BarbersTimeslotListTemplateView, 
+    BarberTimeslotDeleteView,
 )
 
 """
@@ -25,5 +26,6 @@ urlpatterns = [
     path('<slug:slug>/profile', BarberProfileDetailView.as_view(), name='barber-profile'),
 
     path('<slug:slug>/timeslots', BarbersTimeslotListTemplateView.as_view(), name='barber-timeslots'),
+    path('<slug:slug>/delete-timeslots', BarberTimeslotDeleteView.as_view(), name='delete-timeslots'),
     
 ]

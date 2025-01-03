@@ -1,8 +1,11 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.timezone import now
+import datetime
 
 from .models import Appointment, TimeSlot
+
+HOUR_CHOICES = [(datetime.time(hour=x), '{:02d}:00'.format(x)) for x in range(0, 24)]
 
 
 class RequestAppointmentForm(forms.ModelForm):
@@ -33,18 +36,7 @@ class RequestAppointmentForm(forms.ModelForm):
         if not phone_number.isdigit():
             raise ValidationError("Phone number must contain only digits.")
         return phone_number
-
-
-class TimeSlotForm(forms.ModelForm):
-    class Meta:
-        model = TimeSlot
-        fields = ["date", "start_time", "end_time", "is_reserved"]
-        widgets = {
-            "date": forms.DateInput(attrs={"type": "date", "class": "form-control"}),
-            "start_time": forms.DateTimeInput(attrs={"class": "form-control"}),
-            "end_time": forms.DateTimeInput(attrs={"class": "form-control"}),
-            "is_reserved": forms.CheckboxInput(attrs={"class": "form-check-input"}),
-        }
+    
 
 class SingleTimeslotForm(forms.Form):
     slot_date = forms.DateField(
@@ -65,7 +57,6 @@ class SingleTimeslotForm(forms.Form):
             }
         )
     )
-
 
 
 class MultipleTimeslotForm(forms.Form):
