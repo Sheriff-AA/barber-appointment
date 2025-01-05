@@ -65,6 +65,7 @@ class BarberProfileDetailView(OwnershipMixin, BarberRequiredMixin, generic.Detai
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # context['is_owner'] = self.kwargs.get('is_owner', False)
         available_slots = TimeSlot.objects.filter(
             barber=self.get_object()).filter(
             date__lt=now().date()).filter(

@@ -31,6 +31,7 @@ class OwnershipMixin:
 
     def dispatch(self, request, *args, **kwargs):
         # Fetch the object to check ownership
+        kwargs['is_owner'] = is_owner = False
         obj = self.get_target_object()
 
         # Determine ownership
