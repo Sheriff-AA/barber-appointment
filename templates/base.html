@@ -1,6 +1,5 @@
 {% load i18n %}
 {% load static %}
-{% load compress %} 
 
 <!DOCTYPE html>
 <html lang="en">
@@ -10,13 +9,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Book My Barber</title>
 
-    {% compress css %} 
-      {% include 'css.html' %} 
-    {% endcompress %}
+    {% include 'css.html' %} 
+
   </head>
 
   <body>
-    {% include 'navbar.html' %}
+    {% if not exclude_navbar %}
+        {% include 'navbar.html' %}
+    {% endif %}
     {% block content %} 
     
     {% endblock content %}

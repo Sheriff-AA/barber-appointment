@@ -54,7 +54,7 @@ class BarberDetailView(generic.DetailView):
 
 
 class BarberProfileDetailView(OwnershipMixin, BarberRequiredMixin, generic.DetailView):
-    template_name = "barbers/barber_profile.html"
+    template_name = "barbers/barber_dashboard.html"
     context_object_name = 'barber'
 
     def get_target_object(self):
@@ -81,6 +81,7 @@ class BarberProfileDetailView(OwnershipMixin, BarberRequiredMixin, generic.Detai
             'slots': available_slots,
             'requested_appointments': appointments.filter(is_accepted=False),
             'confirmed_appointments': appointments.filter(is_accepted=True),
+            'exclude_navbar': True,
             'is_owner': True
         })
 
