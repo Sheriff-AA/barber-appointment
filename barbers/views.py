@@ -2,6 +2,7 @@ from django.shortcuts import render, reverse, get_object_or_404
 from django.views import generic
 from django.utils.timezone import now
 from collections import defaultdict
+from django.core.paginator import Paginator
 
 from .forms import EditBarberProfileModelForm
 from .models import Barber
@@ -101,9 +102,13 @@ class BarbersTimeslotListTemplateView(OwnershipMixin, generic.TemplateView):
             barber=barber).filter(
             is_reserved=False).order_by('date', 'start_time')
         
+        paginator = Paginator(available_slots, 10)
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+
         context.update({
-            'slots': available_slots,
-            'barber': barber
+            'slots': page_obj,
+            'barber': barber,
         })
         
             
@@ -145,8 +150,12 @@ class BarbersAppointmentRequestListTemplateView(OwnershipMixin, BarberRequiredMi
             slot__barber=barber).filter(
             is_accepted=False).order_by('-requested_on')
         
+        paginator = Paginator(requests_appointment, 10)
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+        
         context.update({
-            'requested_appointments': requests_appointment,
+            'requested_appointments': page_obj,
             'barber': barber
         })
             
@@ -166,8 +175,12 @@ class BarbersAppointmentConfirmedListTemplateView(OwnershipMixin, BarberRequired
             slot__barber=barber).filter(
             is_accepted=True).order_by('-accepted_on')
         
+        paginator = Paginator(confirmed_slots, 10)
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+        
         context.update({
-            'confirmed_appointments': confirmed_slots,
+            'confirmed_appointments': page_obj,
             'barber': barber
         })
             
