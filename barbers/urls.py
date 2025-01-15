@@ -8,6 +8,8 @@ from .views import (
     BarberProfileUpdateView, 
     BarbersTimeslotListTemplateView, 
     BarberTimeslotDeleteView,
+    BarbersAppointmentRequestListTemplateView,
+    BarbersAppointmentConfirmedListTemplateView,
 )
 
 """
@@ -26,6 +28,8 @@ urlpatterns = [
     path('<slug:slug>/profile', BarberProfileDetailView.as_view(), name='barber-profile'),
 
     path('<slug:slug>/timeslots', BarbersTimeslotListTemplateView.as_view(), name='barber-timeslots'),
+    path('<slug:slug>/confirmed', BarbersAppointmentConfirmedListTemplateView.as_view(), name='barber-confirmed'),
+    path('<slug:slug>/requests', BarbersAppointmentRequestListTemplateView.as_view(), name='barber-requests'),
     path('<slug:slug>/delete-timeslots', BarberTimeslotDeleteView.as_view(), name='delete-timeslots'),
     
 ]

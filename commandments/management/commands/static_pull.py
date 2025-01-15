@@ -11,6 +11,7 @@ VENDOR_STATICFILES = {
     "tailwind-out.css": "https://raw.githubusercontent.com/Sheriff-AA/bife-football/main/staticfiles/theme/tailwind-out.css",
     "flowbite.min.css": "https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css",
     "flowbite.min.js": "https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js",
+    "flowbite.min.js.map": "https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js.map",
     # "flowbite.min.js.map": "https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.5.2/flowbite.min.js.map",
     "htmx.min.js": "https://unpkg.com/htmx.org@1.9.11",
     "fullcalendar.min.js": "https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js",

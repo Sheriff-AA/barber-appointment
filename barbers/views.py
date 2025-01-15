@@ -82,7 +82,7 @@ class BarberProfileDetailView(OwnershipMixin, BarberRequiredMixin, generic.Detai
             'requested_appointments': appointments.filter(is_accepted=False),
             'confirmed_appointments': appointments.filter(is_accepted=True),
             'exclude_navbar': True,
-            'is_owner': True
+            # 'is_owner': True
         })
 
         return context
@@ -131,3 +131,46 @@ class BarberTimeslotDeleteView(OwnershipMixin, BarberRequiredMixin, generic.Temp
         slot.delete()
         return render(request, "barbers/barber_profile.html", kwargs={'slug': slot.barber.slug})
     
+
+class BarbersAppointmentRequestListTemplateView(OwnershipMixin, BarberRequiredMixin, generic.TemplateView):
+    template_name = "barbers/partials/barber_appointment_requests.html"
+
+    def get_target_object(self):
+        return get_object_or_404(Barber, slug=self.kwargs.get('slug')).profile
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        barber = get_object_or_404(Barber, slug=context['slug'])
+        requests_appointment = Appointment.objects.filter(
+            slot__barber=barber).filter(
+            is_accepted=False).order_by('-requested_on')
+        
+        context.update({
+            'requested_appointments': requests_appointment,
+            'barber': barber
+        })
+            
+        return render(request, self.template_name, context)
+    
+
+class BarbersAppointmentConfirmedListTemplateView(OwnershipMixin, BarberRequiredMixin, generic.TemplateView):
+    template_name = "barbers/partials/barber_appointments_confirmed.html"
+
+    def get_target_object(self):
+        return get_object_or_404(Barber, slug=self.kwargs.get('slug')).profile
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        barber = get_object_or_404(Barber, slug=context['slug'])
+        confirmed_slots = Appointment.objects.filter(
+            slot__barber=barber).filter(
+            is_accepted=True).order_by('-accepted_on')
+        
+        context.update({
+            'confirmed_appointments': confirmed_slots,
+            'barber': barber
+        })
+            
+        return render(request, self.template_name, context)
+    
+
